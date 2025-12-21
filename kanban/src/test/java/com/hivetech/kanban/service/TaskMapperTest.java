@@ -10,11 +10,16 @@ import com.hivetech.kanban.entity.TaskStatus;
 import com.hivetech.kanban.entity.User;
 import com.hivetech.kanban.mapper.TaskMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 class TaskMapperTest {
 
     @Test
