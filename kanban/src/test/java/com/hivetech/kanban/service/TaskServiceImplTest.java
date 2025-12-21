@@ -14,7 +14,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -176,5 +180,108 @@ public class TaskServiceImplTest {
         assertThat(result.getAssignee()).isNull();
     }
 
+    @Test
+    void shouldFindTasksByStatusWhenStatusProvided() {
+        when(taskRepository.findByProject_IdAndStatus(any(), any(), any()))
+                .thenReturn(Page.empty());
+
+        Page<Task> result = taskService.findAll(
+                1L,
+                TaskStatus.TO_DO,
+                Pageable.unpaged()
+        );
+
+        assertThat(result).isNotNull();
+    }
+
+    @Test
+    void shouldAssignUserWhenAssigneeIdProvided() {
+        Task task = new Task();
+        task.setId(1L);
+
+        User user = new User();
+        user.setId(5L);
+
+        TaskRequest req = new TaskRequest();
+        req.setAssigneeId(5L);
+
+        Project project = new Project();
+        project.setId(1L);
+        task.setProject(project);
+
+        ObjectNode patchNode = new ObjectMapper().createObjectNode();
+        patchNode.put("assigneeId", 5L);
+
+        when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
+        when(userRepository.findById(5L)).thenReturn(Optional.of(user));
+        when(taskRepository.save(task)).thenReturn(task);
+
+        Task result = taskService.patch(1L, req, patchNode);
+
+        assertThat(result.getAssignee()).isEqualTo(user);
+    }
+
+    @Test
+    void shouldThrowWhenAssigneeUserNotFound() {
+        Task task = new Task();
+        task.setId(1L);
+
+        TaskRequest req = new TaskRequest();
+        req.setAssigneeId(99L);
+
+        Project project = new Project();
+        project.setId(1L);
+        task.setProject(project);
+
+        ObjectNode patchNode = new ObjectMapper().createObjectNode();
+        patchNode.put("assigneeId", 99L);
+
+        when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
+        when(userRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> taskService.patch(1L, req, patchNode))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("User not found");
+    }
+
+    @Test
+    void shouldReorderTasksWithinSameStatus() {
+        Task task = new Task();
+        task.setId(1L);
+        task.setStatus(TaskStatus.TO_DO);
+
+        Project project = new Project();
+        project.setId(1L);
+        task.setProject(project);
+
+        when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
+        when(taskRepository.findAllByStatusOrderByOrderIndexAsc(TaskStatus.TO_DO))
+                .thenReturn(new ArrayList<>(List.of(task)));
+
+        taskService.reorderTasks(1L, TaskStatus.TO_DO, 0);
+
+        verify(taskRepository).saveAll(any());
+    }
+
+    @Test
+    void shouldReorderTasksAcrossStatuses() {
+        Task task = new Task();
+        task.setId(1L);
+        task.setStatus(TaskStatus.TO_DO);
+
+        Project project = new Project();
+        project.setId(1L);
+        task.setProject(project);
+
+        when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
+        when(taskRepository.findAllByStatusOrderByOrderIndexAsc(TaskStatus.TO_DO))
+                .thenReturn(new ArrayList<>());
+        when(taskRepository.findAllByStatusOrderByOrderIndexAsc(TaskStatus.DONE))
+                .thenReturn(new ArrayList<>());
+
+        taskService.reorderTasks(1L, TaskStatus.DONE, 0);
+
+        verify(taskRepository, times(2)).saveAll(any());
+    }
 
 }
