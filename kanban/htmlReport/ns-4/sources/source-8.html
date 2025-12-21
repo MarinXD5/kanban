@@ -1,0 +1,211 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TaskResponse</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.hivetech.kanban.dto</a>
+</div>
+
+<h1>Coverage Summary for Class: TaskResponse (com.hivetech.kanban.dto)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TaskResponse</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (29/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.hivetech.kanban.dto;
+&nbsp;
+&nbsp;import com.hivetech.kanban.entity.TaskPriority;
+&nbsp;import com.hivetech.kanban.entity.TaskStatus;
+&nbsp;import com.hivetech.kanban.entity.User;
+&nbsp;
+&nbsp;import java.time.Instant;
+&nbsp;
+&nbsp;public class TaskResponse {
+&nbsp;
+&nbsp;    private Long id;
+&nbsp;    private String title;
+&nbsp;    private String description;
+&nbsp;    private Long projectId;
+&nbsp;    private TaskStatus status;
+&nbsp;    private TaskPriority priority;
+&nbsp;    private Instant createdAt;
+&nbsp;    private Instant updatedAt;
+&nbsp;    private UserResponse assignee;
+&nbsp;
+<b class="fc">&nbsp;    public TaskResponse(){}</b>
+&nbsp;
+<b class="fc">&nbsp;    public TaskResponse(Long id, String title, String description, Long projectId, TaskStatus status, TaskPriority priority, Instant createdAt, Instant updatedAt, UserResponse assignee){</b>
+<b class="fc">&nbsp;        this.id = id;</b>
+<b class="fc">&nbsp;        this.title = title;</b>
+<b class="fc">&nbsp;        this.description = description;</b>
+<b class="fc">&nbsp;        this.projectId = projectId;</b>
+<b class="fc">&nbsp;        this.status = status;</b>
+<b class="fc">&nbsp;        this.priority = priority;</b>
+<b class="fc">&nbsp;        this.createdAt = createdAt;</b>
+<b class="fc">&nbsp;        this.updatedAt = updatedAt;</b>
+<b class="fc">&nbsp;        this.assignee = assignee;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // getters &amp; setters
+&nbsp;    public Long getId() {
+<b class="fc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setId(Long id) {
+<b class="fc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getTitle() {
+<b class="fc">&nbsp;        return title;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTitle(String title) {
+<b class="fc">&nbsp;        this.title = title;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getDescription() {
+<b class="fc">&nbsp;        return description;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Long getProjectId() {
+<b class="fc">&nbsp;        return projectId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setProjectId(Long projectId) {
+<b class="fc">&nbsp;        this.projectId = projectId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDescription(String description) {
+<b class="fc">&nbsp;        this.description = description;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public TaskStatus getStatus() {
+<b class="fc">&nbsp;        return status;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setStatus(TaskStatus status) {
+<b class="fc">&nbsp;        this.status = status;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public TaskPriority getPriority() {
+<b class="fc">&nbsp;        return priority;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPriority(TaskPriority priority) {
+<b class="fc">&nbsp;        this.priority = priority;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Instant getCreatedAt() {
+<b class="fc">&nbsp;        return createdAt;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCreatedAt(Instant createdAt) {
+<b class="fc">&nbsp;        this.createdAt = createdAt;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Instant getUpdatedAt() {
+<b class="fc">&nbsp;        return updatedAt;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUpdatedAt(Instant updatedAt) {
+<b class="fc">&nbsp;        this.updatedAt = updatedAt;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public UserResponse getAssignee() {
+<b class="fc">&nbsp;        return assignee;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAssignee(UserResponse assignee) {
+<b class="fc">&nbsp;        this.assignee = assignee;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-12-21 14:46</div>
+</div>
+</body>
+</html>

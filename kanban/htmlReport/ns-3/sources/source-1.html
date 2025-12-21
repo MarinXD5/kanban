@@ -1,0 +1,148 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AuthController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.hivetech.kanban.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: AuthController (com.hivetech.kanban.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AuthController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71,4%
+  </span>
+  <span class="absValue">
+    (5/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.hivetech.kanban.controller;
+&nbsp;
+&nbsp;import com.hivetech.kanban.dto.AuthResponse;
+&nbsp;import com.hivetech.kanban.dto.LoginRequest;
+&nbsp;import com.hivetech.kanban.dto.RegisterRequest;
+&nbsp;import com.hivetech.kanban.service.AuthService;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.security.authentication.AuthenticationManager;
+&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RestController;
+&nbsp;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/api/auth&quot;)
+&nbsp;public class AuthController {
+&nbsp;
+&nbsp;    private final AuthService authService;
+&nbsp;    private final AuthenticationManager authenticationManager;
+&nbsp;
+&nbsp;    public AuthController(AuthService authService,
+<b class="fc">&nbsp;                          AuthenticationManager authenticationManager) {</b>
+<b class="fc">&nbsp;        this.authService = authService;</b>
+<b class="fc">&nbsp;        this.authenticationManager = authenticationManager;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/register&quot;)
+&nbsp;    public Map&lt;String, AuthResponse&gt; register(
+&nbsp;            @Valid @RequestBody RegisterRequest request
+&nbsp;    ) {
+<b class="fc">&nbsp;        AuthResponse token = authService.register(request);</b>
+<b class="fc">&nbsp;        return Map.of(&quot;token&quot;, token);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/login&quot;)
+&nbsp;    public Map&lt;String, AuthResponse&gt; login(
+&nbsp;            @RequestBody LoginRequest request
+&nbsp;    ) {
+<b class="nc">&nbsp;        AuthResponse token = authService.login(request, authenticationManager);</b>
+<b class="nc">&nbsp;        return Map.of(&quot;token&quot;, token);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-12-21 14:46</div>
+</div>
+</body>
+</html>
