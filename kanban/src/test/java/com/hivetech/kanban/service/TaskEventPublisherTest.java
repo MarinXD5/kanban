@@ -23,11 +23,14 @@ public class TaskEventPublisherTest {
 
     @Test
     void shouldPublishEventToTopic() {
+        Long projectId = 42L;
+        String projectName = "Kanban Project";
+
         TaskResponse response = new TaskResponse(
                 1L,
-                "Test",
+                "Test task",
                 null,
-                null,
+                projectId,
                 null,
                 null,
                 null,
@@ -37,7 +40,9 @@ public class TaskEventPublisherTest {
 
         TaskEvent event = new TaskEvent(
                 TaskEvent.Type.CREATED,
-                response
+                response,
+                projectId,
+                projectName
         );
 
         publisher.publish(event);
