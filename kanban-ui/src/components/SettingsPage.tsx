@@ -11,7 +11,7 @@ export default function SettingsPage() {
     email: auth.user.email,
     currentPassword: "",
     newPassword: "",
-    avatarColor: auth.user.avatarColor || "#4f46e5",
+    avatarColor: auth.user.avatarColor || "#cccccc",
   });
 
   const userId = auth.user.id;

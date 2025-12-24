@@ -56,7 +56,9 @@ public class TaskServiceImpl implements TaskService {
         eventPublisher.publish(
                 new TaskEvent(
                         TaskEvent.Type.CREATED,
-                        TaskMapper.toResponse(saved)
+                        TaskMapper.toResponse(saved),
+                        saved.getProject().getId(),
+                        saved.getProject().getName()
                 )
         );
 
@@ -77,7 +79,9 @@ public class TaskServiceImpl implements TaskService {
         eventPublisher.publish(
                 new TaskEvent(
                         TaskEvent.Type.UPDATED,
-                        TaskMapper.toResponse(saved)
+                        TaskMapper.toResponse(saved),
+                        saved.getProject().getId(),
+                        saved.getProject().getName()
                 )
         );
 
@@ -92,7 +96,9 @@ public class TaskServiceImpl implements TaskService {
         eventPublisher.publish(
                 new TaskEvent(
                         TaskEvent.Type.DELETED,
-                        TaskMapper.toResponse(existing)
+                        TaskMapper.toResponse(existing),
+                        existing.getProject().getId(),
+                        existing.getProject().getName()
                 )
         );
     }
@@ -149,7 +155,9 @@ public class TaskServiceImpl implements TaskService {
         eventPublisher.publish(
                 new TaskEvent(
                         TaskEvent.Type.UPDATED,
-                        TaskMapper.toResponse(saved)
+                        TaskMapper.toResponse(saved),
+                        saved.getProject().getId(),
+                        saved.getProject().getName()
                 )
         );
 
@@ -206,7 +214,9 @@ public class TaskServiceImpl implements TaskService {
         eventPublisher.publish(
                 new TaskEvent(
                         TaskEvent.Type.UPDATED,
-                        TaskMapper.toResponse(task)
+                        TaskMapper.toResponse(task),
+                        task.getProject().getId(),
+                        task.getProject().getName()
                 )
         );
     }

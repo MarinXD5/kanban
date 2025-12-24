@@ -40,7 +40,9 @@ export default function KanbanBoard() {
       switch (event.type) {
         case "CREATED":
           setTasks(prev => [...prev, event.task]);
-          toast.info("Task uspješno kreiran!");
+          toast.info(
+            `Task "${event.task.title}" na projektu "${event.projectName}" uspješno kreiran!`
+          );
           break;
 
         case "UPDATED":
@@ -49,14 +51,16 @@ export default function KanbanBoard() {
               t.id === event.task.id ? event.task : t
             )
           );
-          toast.info("Task uspješno uređen!");
+          toast.info(
+            `Task "${event.task.title}" na projektu "${event.projectName}" uspješno uređen!`
+          );
           break;
 
         case "DELETED":
           setTasks(prev =>
             prev.filter(t => t.id !== event.task.id)
           );
-          toast.info("Task uspješno uklonjen!");
+          toast.info(`Task "${event.task.title}" na projektu "${event.projectName}" uspješno uklonjen!`);
           break;
       }
     });

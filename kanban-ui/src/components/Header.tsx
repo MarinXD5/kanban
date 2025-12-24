@@ -47,7 +47,9 @@ function Avatar({
     .join("")
     .toUpperCase();
 
-  const avatarColor = color ?? "#4f46e5";
+    console.log("Color", color);
+
+  const avatarColor = color ?? "#cccccc";
 
   return (
     <div

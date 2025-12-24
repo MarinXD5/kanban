@@ -33,7 +33,8 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/ws/**",
                                 "/topic/**",
-                                "/app/**"
+                                "/app/**",
+                                "/actuator/health"
                         ).permitAll()
                         .anyRequest().authenticated()
                 ).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
