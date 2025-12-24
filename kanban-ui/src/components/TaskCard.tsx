@@ -5,13 +5,20 @@ import { useState } from "react";
 import {TaskModal} from "./TaskModal";
 import { Avatar } from "./Avatar";
 
-export default function TaskCard({ task, onTaskUpdated, }: { task: Task; onTaskUpdated: (task: Task) => void; }) {
+export default function TaskCard({
+  task,
+  onTaskUpdated,
+}: {
+  task: Task;
+  onTaskUpdated: (task: Task) => void;
+}) {
   const {
     attributes,
     listeners,
     setNodeRef,
     transform,
     transition,
+    isDragging,
   } = useSortable({ id: task.id });
 
   const [open, setOpen] = useState(false);
@@ -26,20 +33,17 @@ export default function TaskCard({ task, onTaskUpdated, }: { task: Task; onTaskU
       <div
         ref={setNodeRef}
         style={style}
-        className="task-card"
+        className={`
+          task-card
+          status-${task.status.toLowerCase()}
+          ${isDragging ? "dragging" : ""}
+        `}
       >
-        <div
-          className="drag-handle"
-          {...attributes}
-          {...listeners}
-        >
+        <div className="drag-handle" {...attributes} {...listeners}>
           ⠿
         </div>
 
-        <div
-          className="task-content"
-          onClick={() => setOpen(true)}
-        >
+        <div className="task-content" onClick={() => setOpen(true)}>
           <div className="task-title">{task.title}</div>
           <div className="task-priority">{task.priority}</div>
         </div>
@@ -53,6 +57,7 @@ export default function TaskCard({ task, onTaskUpdated, }: { task: Task; onTaskU
           </div>
         )}
       </div>
+
       {open && (
         <TaskModal
           task={task}

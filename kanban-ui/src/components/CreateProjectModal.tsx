@@ -32,28 +32,45 @@ export default function CreateProjectModal({
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
-        <h2>Create project</h2>
+      <div className="modal modal-elevated" onClick={e => e.stopPropagation()}>
+        
+        <div className="modal-header">
+          <h2>Kreiraj novi projekt</h2>
+          <button className="modal-close" onClick={onClose}>×</button>
+        </div>
 
-        <label>Name</label>
-        <input
-          value={name}
-          onChange={e => setName(e.target.value)}
-          placeholder="Project name"
-        />
+        <div className="modal-body">
+          <div className="form-group">
+            <label>Naziv projekta</label>
+            <input
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="npr. Stranica za marketing"
+              autoFocus
+            />
+          </div>
 
-        <label>Description</label>
-        <textarea
-          value={description}
-          onChange={e => setDescription(e.target.value)}
-          placeholder="Optional description"
-        />
+          <div className="form-group">
+            <label>Opis</label>
+            <textarea
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              placeholder="Proizvoljni opis ili cilj..."
+            />
+          </div>
+        </div>
 
-        <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-          <button className="primary" onClick={submit} disabled={loading}>
-            Create
+        <div className="modal-footer">
+          <button className="btn-secondary" onClick={onClose}>
+            Odustani
           </button>
-          <button onClick={onClose}>Cancel</button>
+          <button
+            className="btn-primary"
+            onClick={submit}
+            disabled={loading || !name.trim()}
+          >
+            {loading ? "Kreiram..." : "Kreiraj projekt"}
+          </button>
         </div>
       </div>
     </div>

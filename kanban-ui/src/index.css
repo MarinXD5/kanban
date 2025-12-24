@@ -105,16 +105,197 @@ h1 {
   color: #94a3b8;
 }
 
+/* === MODAL BACKDROP === */
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(2, 6, 23, 0.75);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
+/* === MODAL CONTAINER === */
+
+.modal-elevated {
+  width: 520px;
+  max-width: 90vw;
+  background: linear-gradient(180deg, #0f172a, #020617);
+  border-radius: 14px;
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  animation: modal-in 0.2s ease-out;
+}
+
+/* === HEADER === */
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: white;
+}
+
+/* === BODY === */
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.form-group input,
+.form-group textarea {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: white;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 1px #6366f1;
+}
+
+/* === FOOTER === */
+
+.modal-footer {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid #1e293b;
+}
+
+.btn-primary {
+  background: #6366f1;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #4f46e5;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: #e5e7eb;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: #1e293b;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.task-card {
+  border: 1px solid transparent;
+}
+
+.task-card.status-to_do {
+  border-color: #ffffff;
+}
+
+.task-card.status-in_progress {
+  border-color: #facc15;
+}
+
+.task-card.status-done {
+  border-color: #49ff8c;
+}
+
+/* === DONE COLUMN GLOW === */
+
+.kanban-column.done-glow {
+  box-shadow:
+    0 0 0 2px rgba(134, 239, 172, 0.6),
+    0 0 25px rgba(134, 239, 172, 0.35);
+  transition: box-shadow 0.2s ease;
+}
+
+/* === DRAGGING TASK GLOW WHEN OVER DONE === */
+
+.task-card.dragging.status-done {
+  box-shadow:
+    0 0 0 2px rgba(134, 239, 172, 0.8),
+    0 0 30px rgba(134, 239, 172, 0.5);
+}
+
+.task-card.status-done .task-title {
+  text-decoration: line-through;
+  color: #94a3b8;
+  opacity: 0.75;
+}
+
+.task-card.status-done .task-priority {
+  opacity: 0.6;
+}
 
 .modal {
   width: 520px;
@@ -148,6 +329,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 16px;
 }
 
 .add-task-btn {
@@ -157,7 +339,14 @@ h1 {
   border: 2px solid white;
   background: transparent;
   color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   font-size: 18px;
+  line-height: 1;
+  padding: 0;
   cursor: pointer;
 }
 
@@ -465,13 +654,31 @@ h1 {
 }
 
 .sidenav-add {
-  background: none;
-  border: 1px solid #94a3b8;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  color: #94a3b8;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
   cursor: pointer;
+}
+
+.sidenav-add:hover {
+  background: white;
+  color: black;
+}
+
+.task-input::placeholder {
+  color: #64748b;
+  font-style: italic;
 }
 
 .sidenav-item {
@@ -590,9 +797,4 @@ h1 {
 
 .user-row button.danger {
   background: #ef4444;
-}
-
-.modal-footer {
-  margin-top: 16px;
-  text-align: right;
 }

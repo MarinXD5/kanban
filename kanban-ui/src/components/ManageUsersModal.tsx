@@ -76,7 +76,7 @@ export default function ManageUsersModal({
     </div>
 
     <div className="modal-footer">
-      <button onClick={onClose}>Close</button>
+      <button className="btn-secondary" onClick={onClose}>Zatvori</button>
     </div>
   </div>
 </div>

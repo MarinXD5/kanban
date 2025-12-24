@@ -9,16 +9,21 @@ export default function KanbanColumn({
   status,
   tasks,
   onTaskUpdated,
+  dragOverStatus,
 }: {
   status: TaskStatus;
   tasks: Task[];
   onTaskUpdated: (task: Task) => void;
+  dragOverStatus: TaskStatus | null;
 }) {
   const { setNodeRef } = useDroppable({ id: status });
   const [creating, setCreating] = useState(false);
 
   return (
-    <div ref={setNodeRef} className="kanban-column">
+    <div ref={setNodeRef} className={`
+    kanban-column
+    ${dragOverStatus === "DONE" && status === "DONE" ? "done-glow" : ""}
+  `}>
       <div className="column-header">
         <div className="column-title">
           {status.replace("_", " ")}
@@ -26,7 +31,6 @@ export default function KanbanColumn({
             {tasks.length}
           </span>
         </div>
-
 
         <button
           className="add-task-btn"

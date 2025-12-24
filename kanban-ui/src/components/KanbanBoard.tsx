@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import type { Task, TaskStatus } from "../types/Task";
 import { getTasks, updateTask} from "../api/taskApi";
@@ -9,6 +8,7 @@ import { DragOverlay } from "@dnd-kit/core";
 import { pointerWithin } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import {
   DndContext,
@@ -21,11 +21,7 @@ export default function KanbanBoard() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const { projectId } = useParams<{ projectId: string }>();
-
-  const load = async () => {
-    if (!projectId) return;
-    setTasks(await getTasks(Number(projectId)));
-  };
+  const [dragOverStatus, setDragOverStatus] = useState<TaskStatus | null>(null);
 
   const tasksByStatus = (status: TaskStatus) =>
     tasks
@@ -35,12 +31,35 @@ export default function KanbanBoard() {
   useEffect(() => {
     if (!projectId) return;
 
-    const init = async () => {
-      await load();
-    };
+    getTasks(Number(projectId)).then(setTasks);
 
-    init();
-    const client = connectSocket(load);
+    const client = connectSocket(event => {
+      // OPTIONAL: ignore events for other projects
+      //if (event.task.projectId !== Number(projectId)) return;
+
+      switch (event.type) {
+        case "CREATED":
+          setTasks(prev => [...prev, event.task]);
+          toast.info("Task uspješno kreiran!");
+          break;
+
+        case "UPDATED":
+          setTasks(prev =>
+            prev.map(t =>
+              t.id === event.task.id ? event.task : t
+            )
+          );
+          toast.info("Task uspješno uređen!");
+          break;
+
+        case "DELETED":
+          setTasks(prev =>
+            prev.filter(t => t.id !== event.task.id)
+          );
+          toast.info("Task uspješno uklonjen!");
+          break;
+      }
+    });
 
     return () => {
       client.deactivate();
@@ -56,6 +75,7 @@ export default function KanbanBoard() {
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     setActiveTask(null);
+    setDragOverStatus(null);
 
     if (!over) return;
 
@@ -158,6 +178,7 @@ export default function KanbanBoard() {
         status={status}
         tasks={tasksByStatus(status)}
         onTaskUpdated={handleTaskUpdated}
+        dragOverStatus={dragOverStatus}
       />
     ))}
   </div>

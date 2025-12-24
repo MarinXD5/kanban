@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16
+    container_name: kanban-db
+    environment:
+      POSTGRES_DB: kanban
+      POSTGRES_USER: kanban
+      POSTGRES_PASSWORD: kanban
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./kanban
+    container_name: kanban-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/kanban
+      SPRING_DATASOURCE_USERNAME: kanban
+      SPRING_DATASOURCE_PASSWORD: kanban
+    depends_on:
+      - db
+
+  frontend:
+    build: ./kanban-ui
+    container_name: kanban-ui
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

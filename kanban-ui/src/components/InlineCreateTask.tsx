@@ -3,6 +3,12 @@ import type { TaskStatus } from "../types/Task";
 import { createTask } from "../api/taskApi";
 import { useParams } from "react-router-dom";
 
+const PLACEHOLDER_BY_STATUS: Record<TaskStatus, string> = {
+  TO_DO: "Što bi trebalo napraviti?",
+  IN_PROGRESS: "Na čemu radimo?",
+  DONE: "Što smo napravili?",
+};
+
 export default function InlineCreateTask({
   status,
   order,
@@ -44,7 +50,7 @@ export default function InlineCreateTask({
       <input
         ref={inputRef}
         className="task-input"
-        placeholder="What needs to be done?"
+        placeholder={PLACEHOLDER_BY_STATUS[status]}
         value={title}
         onChange={e => setTitle(e.target.value)}
         onKeyDown={e => {

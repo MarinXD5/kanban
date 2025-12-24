@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import SettingsPage from "./components/SettingsPage";
 import SideNav from "./components/SideNav";
 import ProjectsRedirect from "./components/ProjectsRedirect";
+import { ToastContainer } from "react-toastify";
 
 export default function App() {
   const auth = useContext(AuthContext);
@@ -31,6 +32,11 @@ export default function App() {
         <Route path="*" element={<ProjectsRedirect />} />
       </Routes>
     </div>
+
+    <ToastContainer 
+      position="bottom-right"
+      autoClose={1500}  
+    />
   </>
 );
 
