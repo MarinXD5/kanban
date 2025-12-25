@@ -6,10 +6,13 @@ import com.hivetech.kanban.dto.RegisterRequest;
 import com.hivetech.kanban.entity.User;
 import com.hivetech.kanban.repository.UserRepository;
 import com.hivetech.kanban.util.JwtUtil;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthService {
@@ -28,7 +31,10 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("Email already in use");
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Email already in use"
+            );
         }
 
         User user = new User();
@@ -40,7 +46,7 @@ public class AuthService {
         userRepository.save(user);
 
         return new AuthResponse(
-                jwtUtil.generateToken(user.getEmail()),
+                jwtUtil.generateToken(user.getId(), user.getEmail()),
                 user.getId(),
                 user.getEmail(),
                 user.getName(),
@@ -49,18 +55,28 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request, AuthenticationManager authManager) {
-        authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+        } catch (AuthenticationException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Invalid email or password"
+            );
+        }
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow();
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED,
+                        "Invalid email or password"
+                ));
 
         return new AuthResponse(
-                jwtUtil.generateToken(user.getEmail()),
+                jwtUtil.generateToken(user.getId(), user.getEmail()),
                 user.getId(),
                 user.getEmail(),
                 user.getName(),

@@ -14,11 +14,13 @@ public class JwtUtil {
     private final String secret =
             "very-secret-key-change-me-very-secret";
 
-    public String generateToken(String email) {
+    public String generateToken(Long userId, String email) {
+        Instant now = Instant.now();
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(Date.from(Instant.now().plusSeconds(3600)))
+                .setSubject(userId.toString())
+                .claim("email", email)
+                .setIssuedAt(Date.from(now))
+                .setExpiration(Date.from(now.plusSeconds(3600)))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()), SignatureAlgorithm.HS256)
                 .compact();
     }

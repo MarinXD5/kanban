@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { login, register } from "../api/authApi";
 import { AuthContext } from "./AuthContext";
+import { toast } from "react-toastify";
 
 export default function AuthPage() {
   const auth = useContext(AuthContext);
@@ -14,15 +15,37 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [mode, setMode] = useState<"login" | "register">("login");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const submit = async () => {
-    const res =
+  setLoading(true);
+
+  try {
+    const token =
       mode === "login"
         ? await login(email, password)
         : await register(email, password, name);
 
-    authLogin(res);
-  };
+    authLogin(token);
+  } catch (err: any) {
+    if (err.response) {
+      if (err.response.status === 401) {
+        toast.error("Neispravni podaci za prijavu.");
+      } else if (err.response.status === 404) {
+        toast.error("Korisnik ne postoji. Registrirajte se.");
+      } else if (err.response.status === 409) {
+        toast.error("Email je već registriran.");
+      } else {
+        toast.error(err.response.data?.message || "Došlo je do greške.");
+      }
+    } else {
+      toast.error("Greška mreže. Pokušajte ponovno.");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
   <div className="auth-page">
@@ -52,8 +75,16 @@ export default function AuthPage() {
         onChange={e => setPassword(e.target.value)}
       />
 
-      <button className="primary" onClick={submit}>
-        {mode === "login" ? "Prijavi se" : "Registriraj se"}
+      <button
+        className="primary"
+        onClick={submit}
+        disabled={loading}
+      >
+        {loading
+          ? "Molimo pričekajte..."
+          : mode === "login"
+            ? "Prijavi se"
+            : "Registriraj se"}
       </button>
 
       <button
