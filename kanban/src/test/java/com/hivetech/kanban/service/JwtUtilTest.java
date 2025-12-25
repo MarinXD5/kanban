@@ -12,19 +12,22 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
 class JwtUtilTest {
 
-    JwtUtil jwtUtil = new JwtUtil();
-
     @Test
     void shouldGenerateAndParseToken() {
-        String token = jwtUtil.generateToken("a@a.com");
+        JwtUtil jwtUtil = new JwtUtil();
 
-        String email = jwtUtil.extractUsername(token);
+        String token = jwtUtil.generateToken(1L, "a@a.com");
 
+        Long userId = jwtUtil.extractUserId(token);
+        String email = jwtUtil.extractEmail(token);
+
+        assertThat(userId).isEqualTo(1L);
         assertThat(email).isEqualTo("a@a.com");
     }
 
@@ -32,7 +35,7 @@ class JwtUtilTest {
     void shouldGenerateAndExtractUsername() {
         JwtUtil jwtUtil = new JwtUtil();
 
-        String token = jwtUtil.generateToken("test@test.com");
+        String token = jwtUtil.generateToken(1L,"test@test.com");
         String email = jwtUtil.extractUsername(token);
 
         assertThat(email).isEqualTo("test@test.com");
