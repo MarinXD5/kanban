@@ -157,6 +157,7 @@ Projekt sadrži:
 ### Pokretanje s Docker Composeom
 
 ```bash
+cd /kanban
 docker-compose up --build
 ```
 
