@@ -19,9 +19,13 @@ h1 {
   min-height: 200px; 
   padding-bottom: 16px;
   align-items: flex-start;
+
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .kanban-column {
+    flex: 0 0 320px;
   background: #020617; /* slate-950 */
   border-radius: 12px;
   padding: 16px;
@@ -797,4 +801,161 @@ h1 {
 
 .user-row button.danger {
   background: #ef4444;
+}
+
+@media (max-width: 767px) {
+
+  /* --- APP LAYOUT --- */
+
+  .app-layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidenav {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+  }
+
+  .sidenav-item {
+    white-space: nowrap;
+  }
+
+  .sidenav-header{
+    gap: 8px;
+  }
+
+  .project-menu-wrapper {
+    overflow: visible;
+  }
+
+  .sidenav,
+  .sidenav-header {
+    overflow: visible;
+  }
+
+  /* --- KANBAN --- */
+
+  .kanban-board {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .kanban-column {
+    width: 100%;
+    flex: none;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+  }
+
+  .column-header {
+    display: none;
+  }
+
+  /* --- TASK CARD --- */
+
+  .task-title {
+    font-size: 14px;
+  }
+
+  .task-priority {
+    font-size: 11px;
+  }
+
+  /* --- MODALS: FULLSCREEN --- */
+
+  .modal-backdrop {
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .modal,
+  .modal-elevated,
+  .task-modal {
+    margin: auto;
+  }
+
+  .modal-body {
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .task-modal-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .task-modal-right {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid #1e293b;
+    padding-top: 16px;
+  }
+
+  .sidenav-header {
+  font-size: 13px;
+  font-weight: 500;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+}
+
+
+  /* --- AUTH --- */
+
+  .auth-card {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    height: 100vh;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .kanban-column {
+    width: 92vw;
+    flex: 0 0 92vw;
+  }
+
+  .column-title {
+    font-size: 12px;
+  }
+
+  .task-card {
+    padding: 10px;
+  }
+
+  .task-title {
+    font-size: 13px;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .sidenav-header {
+  font-size: 13px;
+  font-weight: 500;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+}
+
+}
+
+@media (max-width: 767px) {
+  header {
+    padding: 0 12px !important;
+  }
+}
+
+
+@media (max-width: 767px) {
+  .modal-close {
+    font-size: 28px;
+  }
 }
